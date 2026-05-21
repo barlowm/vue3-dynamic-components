@@ -20,18 +20,18 @@
 <script setup>
 import { ref, onMounted } from "vue";
 
+// Move import.meta.glob to module-level scope (required by Vite)
+const componentModules = import.meta.glob("../generated/*.vue", {
+  eager: true,
+});
+
 const loadedComponents = ref([]);
 
-onMounted(async () => {
+onMounted(() => {
   console.log("onMounted function entry point");
   debugger;
   try {
-    // Dynamically import all generated components
-    const componentModules = import.meta.glob("../generated/*.vue", {
-      // const componentModules = import.meta.glob("../../../generated/*.vue", {
-      eager: true,
-    });
-    console.log("onMounted componentModules imported");
+    console.log("componentModules imported:", componentModules);
 
     loadedComponents.value = Object.entries(componentModules).map(
       ([path, module]) => {
