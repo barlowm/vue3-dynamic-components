@@ -5,6 +5,11 @@
       <p>Components generated from configuration files</p>
     </header>
 
+    <div v-if="loadedComponents.length === 0" class="debug-info">
+      <p style="color: red; font-weight: bold;">⚠️ No components loaded</p>
+      <pre style="background: #f0f0f0; padding: 1rem; border-radius: 4px; overflow-x: auto;">{{ debugInfo }}</pre>
+    </div>
+
     <div class="components-grid">
       <component
         v-for="comp in loadedComponents"
@@ -26,15 +31,40 @@ const componentModules = import.meta.glob("../generated/*.vue", {
 });
 
 const loadedComponents = ref([]);
+const debugInfo = ref("");
 
 onMounted(() => {
-  console.log("onMounted function entry point");
+  console.log("=== onMounted Debug Info ===");
+  console.log("componentModules keys:", Object.keys(componentModules));
   console.log("componentModules:", componentModules);
   
+  let debug = `Glob paths found: ${Object.keys(componentModules).length}\n\n`;
+  
   try {
+    if (Object.keys(componentModules).length === 0) {
+      debug += "❌ No components found by import.meta.glob!\n";
+      debug += "Expected path: ../generated/*.vue\n";
+      debug += "Make sure generated directory has .vue files";
+      debugInfo.value = debug;
+      console.error(debug);
+      return;
+    }
+
     loadedComponents.value = Object.entries(componentModules).map(
       ([path, module]) => {
+        console.log(`Processing: ${path}`, module);
         const name = path.split("/").pop().replace(".vue", "");
+        
+        if (!module.default) {
+          console.warn(`⚠️ No default export for ${path}`);
+        }
+        
+        if (module.componentConfig) {
+          console.log(`✅ Config found for ${name}:`, module.componentConfig);
+        } else {
+          console.warn(`⚠️ No componentConfig export for ${name}`);
+        }
+        
         return {
           name,
           module: module.default,
@@ -43,11 +73,19 @@ onMounted(() => {
       },
     );
 
-    console.log(`Loaded ${loadedComponents.value.length} components`);
+    console.log(`✅ Loaded ${loadedComponents.value.length} components`);
     console.log("loadedComponents:", loadedComponents.value);
+    
+    debug += `✅ Successfully loaded ${loadedComponents.value.length} components\n`;
+    loadedComponents.value.forEach(comp => {
+      debug += `  - ${comp.name}: ${comp.config.title}\n`;
+    });
   } catch (error) {
-    console.error("Error loading components:", error);
+    console.error("❌ Error loading components:", error);
+    debug += `❌ Error: ${error.message}\n${error.stack}`;
   }
+  
+  debugInfo.value = debug;
 });
 </script>
 
@@ -75,6 +113,14 @@ header h1 {
 header p {
   margin: 0;
   color: #666;
+}
+
+.debug-info {
+  background: #fff3cd;
+  border: 2px solid #ff9800;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .components-grid {
