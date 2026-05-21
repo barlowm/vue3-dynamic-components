@@ -24,62 +24,74 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-
-// Move import.meta.glob to module-level scope (required by Vite)
-const componentModules = import.meta.glob("../generated/*.vue", {
-  eager: true,
-});
+import fs from 'fs';
+import path from 'path';
 
 const loadedComponents = ref([]);
 const debugInfo = ref("");
 
-onMounted(() => {
+onMounted(async () => {
   console.log("=== onMounted Debug Info ===");
-  console.log("componentModules keys:", Object.keys(componentModules));
-  console.log("componentModules:", componentModules);
   
-  let debug = `Glob paths found: ${Object.keys(componentModules).length}\n\n`;
+  let debug = "";
   
   try {
-    if (Object.keys(componentModules).length === 0) {
-      debug += "❌ No components found by import.meta.glob!\n";
-      debug += "Expected path: ../generated/*.vue\n";
-      debug += "Make sure generated directory has .vue files";
-      debugInfo.value = debug;
-      console.error(debug);
-      return;
-    }
-
-    loadedComponents.value = Object.entries(componentModules).map(
-      ([path, module]) => {
-        console.log(`Processing: ${path}`, module);
+    // Dynamically import all .vue files from generated directory
+    const modules = import.meta.glob("../generated/*.vue", {
+      eager: true,
+      import: "default"
+    });
+    
+    console.log("Glob modules:", modules);
+    console.log("Module keys:", Object.keys(modules));
+    
+    if (Object.keys(modules).length === 0) {
+      debug += "❌ Glob found 0 modules\n";
+      debug += "Trying alternative loading method...\n";
+      
+      // Fallback: try importing specific files
+      const componentNames = ["Hero", "Features", "CTA"];
+      const loadedModules = [];
+      
+      for (const name of componentNames) {
+        try {
+          const module = await import(`../generated/${name}.vue`);
+          console.log(`✅ Loaded ${name}.vue`);
+          loadedModules.push({
+            name,
+            module: module.default,
+            config: module.componentConfig || { title: name, description: "Auto-generated component" }
+          });
+          debug += `✅ Loaded ${name}.vue\n`;
+        } catch (err) {
+          console.warn(`⚠️ Failed to load ${name}.vue:`, err);
+          debug += `⚠️ Failed to load ${name}.vue: ${err.message}\n`;
+        }
+      }
+      
+      loadedComponents.value = loadedModules;
+    } else {
+      // Use glob results
+      loadedComponents.value = Object.entries(modules).map(([path, module]) => {
         const name = path.split("/").pop().replace(".vue", "");
-        
-        if (!module.default) {
-          console.warn(`⚠️ No default export for ${path}`);
-        }
-        
-        if (module.componentConfig) {
-          console.log(`✅ Config found for ${name}:`, module.componentConfig);
-        } else {
-          console.warn(`⚠️ No componentConfig export for ${name}`);
-        }
+        console.log(`Processing: ${name}`, module);
         
         return {
           name,
-          module: module.default,
-          config: module.componentConfig || { title: name, description: "Auto-generated component" },
+          module: module,
+          config: module.componentConfig || { title: name, description: "Auto-generated component" }
         };
-      },
-    );
+      });
+      
+      debug += `✅ Glob found ${Object.keys(modules).length} components\n`;
+      loadedComponents.value.forEach(comp => {
+        debug += `  - ${comp.name}\n`;
+      });
+    }
 
     console.log(`✅ Loaded ${loadedComponents.value.length} components`);
     console.log("loadedComponents:", loadedComponents.value);
     
-    debug += `✅ Successfully loaded ${loadedComponents.value.length} components\n`;
-    loadedComponents.value.forEach(comp => {
-      debug += `  - ${comp.name}: ${comp.config.title}\n`;
-    });
   } catch (error) {
     console.error("❌ Error loading components:", error);
     debug += `❌ Error: ${error.message}\n${error.stack}`;
