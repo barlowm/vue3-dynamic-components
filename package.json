@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/build-components.js && vite",
     "build": "node scripts/build-components.js && vite build",
     "preview": "vite preview",
     "generate-components": "node scripts/build-components.js"
