@@ -29,22 +29,22 @@ const loadedComponents = ref([]);
 
 onMounted(() => {
   console.log("onMounted function entry point");
-  debugger;
+  console.log("componentModules:", componentModules);
+  
   try {
-    console.log("componentModules imported:", componentModules);
-
     loadedComponents.value = Object.entries(componentModules).map(
       ([path, module]) => {
         const name = path.split("/").pop().replace(".vue", "");
         return {
           name,
           module: module.default,
-          config: module.default,
+          config: module.componentConfig || { title: name, description: "Auto-generated component" },
         };
       },
     );
 
     console.log(`Loaded ${loadedComponents.value.length} components`);
+    console.log("loadedComponents:", loadedComponents.value);
   } catch (error) {
     console.error("Error loading components:", error);
   }
