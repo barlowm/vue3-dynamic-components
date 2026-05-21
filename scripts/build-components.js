@@ -40,22 +40,32 @@ configFiles.forEach(file => {
 function generateVueComponent(config, name) {
   return `<template>
   <div class="component-${name.toLowerCase()}">
-    <h2>${config.title || name}</h2>
-    <p>${config.description || 'Component generated from config'}</p>
+    <h2>{{ title }}</h2>
+    <p>{{ description }}</p>
     <div class="content">
-      <p>${config.content || ''}</p>
+      <p>{{ content }}</p>
     </div>
     <div class="meta">
-      <small>Generated: ${new Date().toISOString()}</small>
+      <small>Generated: {{ generatedDate }}</small>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 defineProps({
   title: String,
   description: String
 });
+
+// Export config data
+export const componentConfig = ${JSON.stringify(config)};
+
+const content = ref('${config.content || ''}');
+const generatedDate = ref('${new Date().toISOString()}');
+const title = ref('${config.title || name}');
+const description = ref('${config.description || 'Component generated from config'}');
 </script>
 
 <style scoped>
