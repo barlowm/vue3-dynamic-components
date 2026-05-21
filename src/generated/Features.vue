@@ -1,21 +1,31 @@
 <template>
   <div class="component-features">
-    <h2>Features</h2>
-    <p>Key features of this application</p>
+    <h2>{{ title }}</h2>
+    <p>{{ description }}</p>
     <div class="content">
-      <p>Components are generated automatically whenever you change configuration files</p>
+      <p>{{ content }}</p>
     </div>
     <div class="meta">
-      <small>Generated: 2026-05-20T15:27:41.054Z</small>
+      <small>Generated: {{ generatedDate }}</small>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 defineProps({
   title: String,
   description: String
 });
+
+// Export config data
+export const componentConfig = {"title":"Features","description":"Key features of this application","content":"Components are generated automatically whenever you change configuration files","bgColor1":"#f093fb","bgColor2":"#f5576c"};
+
+const content = ref('Components are generated automatically whenever you change configuration files');
+const generatedDate = ref('2026-05-21T21:30:15.814Z');
+const title = ref('Features');
+const description = ref('Key features of this application');
 </script>
 
 <style scoped>

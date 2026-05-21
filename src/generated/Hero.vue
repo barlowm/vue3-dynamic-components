@@ -1,21 +1,31 @@
 <template>
   <div class="component-hero">
-    <h2>Hero Component</h2>
-    <p>Welcome to the dynamic component system</p>
+    <h2>{{ title }}</h2>
+    <p>{{ description }}</p>
     <div class="content">
-      <p>This component was automatically generated from a text configuration file!</p>
+      <p>{{ content }}</p>
     </div>
     <div class="meta">
-      <small>Generated: 2026-05-20T15:27:41.054Z</small>
+      <small>Generated: {{ generatedDate }}</small>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 defineProps({
   title: String,
   description: String
 });
+
+// Export config data
+export const componentConfig = {"title":"Hero Component","description":"Welcome to the dynamic component system","content":"This component was automatically generated from a text configuration file!","bgColor1":"#667eea","bgColor2":"#764ba2"};
+
+const content = ref('This component was automatically generated from a text configuration file!');
+const generatedDate = ref('2026-05-21T21:30:15.815Z');
+const title = ref('Hero Component');
+const description = ref('Welcome to the dynamic component system');
 </script>
 
 <style scoped>

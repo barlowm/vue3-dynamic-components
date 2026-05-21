@@ -1,21 +1,31 @@
 <template>
   <div class="component-cta">
-    <h2>Call to Action</h2>
-    <p>Ready to get started?</p>
+    <h2>{{ title }}</h2>
+    <p>{{ description }}</p>
     <div class="content">
-      <p>Modify the .txt files in src/config/ and run npm run generate-components</p>
+      <p>{{ content }}</p>
     </div>
     <div class="meta">
-      <small>Generated: 2026-05-20T15:27:41.049Z</small>
+      <small>Generated: {{ generatedDate }}</small>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 defineProps({
   title: String,
   description: String
 });
+
+// Export config data
+export const componentConfig = {"title":"Call to Action","description":"Ready to get started?","content":"Modify the .txt files in src/config/ and run npm run generate-components","bgColor1":"#4facfe","bgColor2":"#00f2fe"};
+
+const content = ref('Modify the .txt files in src/config/ and run npm run generate-components');
+const generatedDate = ref('2026-05-21T21:30:15.810Z');
+const title = ref('Call to Action');
+const description = ref('Ready to get started?');
 </script>
 
 <style scoped>
