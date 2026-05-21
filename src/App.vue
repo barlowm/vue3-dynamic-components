@@ -27,8 +27,8 @@ onMounted(async () => {
   debugger;
   try {
     // Dynamically import all generated components
-    // const componentModules = import.meta.glob("../generated/*.vue", {
-    const componentModules = import.meta.glob("../../../generated/*.vue", {
+    const componentModules = import.meta.glob("../generated/*.vue", {
+      // const componentModules = import.meta.glob("../../../generated/*.vue", {
       eager: true,
     });
     console.log("onMounted componentModules imported");
