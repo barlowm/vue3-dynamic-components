@@ -24,9 +24,9 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import HeroComponent from "../generated/Hero.vue";
-import FeaturesComponent from "../generated/Features.vue";
-import CTAComponent from "../generated/CTA.vue";
+import HeroComponent from "./generated/Hero.vue";
+import FeaturesComponent from "./generated/Features.vue";
+import CTAComponent from "./generated/CTA.vue";
 
 const loadedComponents = ref([]);
 const debugInfo = ref("");
