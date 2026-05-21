@@ -24,77 +24,46 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import fs from 'fs';
-import path from 'path';
+import HeroComponent from "../generated/Hero.vue";
+import FeaturesComponent from "../generated/Features.vue";
+import CTAComponent from "../generated/CTA.vue";
 
 const loadedComponents = ref([]);
 const debugInfo = ref("");
 
-onMounted(async () => {
-  console.log("=== onMounted Debug Info ===");
+onMounted(() => {
+  console.log("=== Component Loading ===");
   
   let debug = "";
   
   try {
-    // Dynamically import all .vue files from generated directory
-    const modules = import.meta.glob("../generated/*.vue", {
-      eager: true,
-      import: "default"
-    });
-    
-    console.log("Glob modules:", modules);
-    console.log("Module keys:", Object.keys(modules));
-    
-    if (Object.keys(modules).length === 0) {
-      debug += "❌ Glob found 0 modules\n";
-      debug += "Trying alternative loading method...\n";
-      
-      // Fallback: try importing specific files
-      const componentNames = ["Hero", "Features", "CTA"];
-      const loadedModules = [];
-      
-      for (const name of componentNames) {
-        try {
-          const module = await import(`../generated/${name}.vue`);
-          console.log(`✅ Loaded ${name}.vue`);
-          loadedModules.push({
-            name,
-            module: module.default,
-            config: module.componentConfig || { title: name, description: "Auto-generated component" }
-          });
-          debug += `✅ Loaded ${name}.vue\n`;
-        } catch (err) {
-          console.warn(`⚠️ Failed to load ${name}.vue:`, err);
-          debug += `⚠️ Failed to load ${name}.vue: ${err.message}\n`;
-        }
-      }
-      
-      loadedComponents.value = loadedModules;
-    } else {
-      // Use glob results
-      loadedComponents.value = Object.entries(modules).map(([path, module]) => {
-        const name = path.split("/").pop().replace(".vue", "");
-        console.log(`Processing: ${name}`, module);
-        
-        return {
-          name,
-          module: module,
-          config: module.componentConfig || { title: name, description: "Auto-generated component" }
-        };
-      });
-      
-      debug += `✅ Glob found ${Object.keys(modules).length} components\n`;
-      loadedComponents.value.forEach(comp => {
-        debug += `  - ${comp.name}\n`;
-      });
-    }
+    // Directly import components (Vite-compatible approach)
+    const components = [
+      { name: "Hero", module: HeroComponent },
+      { name: "Features", module: FeaturesComponent },
+      { name: "CTA", module: CTAComponent },
+    ];
 
-    console.log(`✅ Loaded ${loadedComponents.value.length} components`);
-    console.log("loadedComponents:", loadedComponents.value);
+    loadedComponents.value = components.map(comp => {
+      console.log(`✅ Loaded ${comp.name}.vue`);
+      debug += `✅ Loaded ${comp.name}.vue\n`;
+      
+      return {
+        name: comp.name,
+        module: comp.module,
+        config: comp.module.componentConfig || { 
+          title: comp.name, 
+          description: "Auto-generated component" 
+        }
+      };
+    });
+
+    console.log(`✅ Successfully loaded ${loadedComponents.value.length} components`);
+    debug += `\n✅ Successfully loaded ${loadedComponents.value.length} components`;
     
   } catch (error) {
     console.error("❌ Error loading components:", error);
-    debug += `❌ Error: ${error.message}\n${error.stack}`;
+    debug = `❌ Error: ${error.message}\n${error.stack}`;
   }
   
   debugInfo.value = debug;
