@@ -23,7 +23,7 @@ defineProps({
 export const componentConfig = {"title":"Features","description":"Key features of this application","content":"Components are generated automatically whenever you change configuration files","bgColor1":"#f093fb","bgColor2":"#f5576c"};
 
 const content = ref('Components are generated automatically whenever you change configuration files');
-const generatedDate = ref('2026-05-21T21:35:08.010Z');
+const generatedDate = ref('2026-05-21T21:36:44.491Z');
 const title = ref('Features');
 const description = ref('Key features of this application');
 </script>
