@@ -121,5 +121,11 @@ npm run generate-components
 - **Node.js** - For the build script
 
 ## License
-
 MIT
+
+## debugging vue3.js applications in vscodium
+https://www.google.com/search?q=debugging+vue3.js+applications+in+vscodium&rlz=1C1GCEA_enUS1208US1208&sca_esv=b05b86de3d8e65b9&biw=1367&bih=760&sxsrf=ANbL-n43Qo5rs7KLimbyGZXvK6I1ojL6TQ%3A1779298391551&ei=V_ANarukIc615NoPw4eGgQ8&ved=0ahUKEwj7q8-Es8iUAxXOGlkFHcODIfAQ4dUDCBI&uact=5&oq=debugging+vue3.js+applications+in+vscodium&gs_lp=Egxnd3Mtd2l6LXNlcnAiKmRlYnVnZ2luZyB2dWUzLmpzIGFwcGxpY2F0aW9ucyBpbiB2c2NvZGl1bTIHECEYChigATIHECEYChigATIHECEYChigATIHECEYChigATIHECEYChigAUiWJVCWElizInABeAGQAQCYAfQBoAGbCqoBBTAuNC4zuAEDyAEA-AEBmAIIoAKyCsICChAAGEcY1gQYsAOYAwCIBgGQBgiSBwUxLjQuM6AHyiCyBwUwLjQuM7gHrgrCBwMyLjbIBwuACAE&sclient=gws-wiz-serp
+
+
+Debugging Vue.js Applications
+https://www.youtube.com/watch?v=VY2ZeKQLxpk

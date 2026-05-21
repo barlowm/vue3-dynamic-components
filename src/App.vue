@@ -18,27 +18,35 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 
 const loadedComponents = ref([]);
 
 onMounted(async () => {
+  console.log("onMounted function entry point");
+  debugger;
   try {
     // Dynamically import all generated components
-    const componentModules = import.meta.glob('../generated/*.vue', { eager: true });
-    
-    loadedComponents.value = Object.entries(componentModules).map(([path, module]) => {
-      const name = path.split('/').pop().replace('.vue', '');
-      return {
-        name,
-        module: module.default,
-        config: module.default
-      };
+    // const componentModules = import.meta.glob("../generated/*.vue", {
+    const componentModules = import.meta.glob("../../../generated/*.vue", {
+      eager: true,
     });
+    console.log("onMounted componentModules imported");
+
+    loadedComponents.value = Object.entries(componentModules).map(
+      ([path, module]) => {
+        const name = path.split("/").pop().replace(".vue", "");
+        return {
+          name,
+          module: module.default,
+          config: module.default,
+        };
+      },
+    );
 
     console.log(`Loaded ${loadedComponents.value.length} components`);
   } catch (error) {
-    console.error('Error loading components:', error);
+    console.error("Error loading components:", error);
   }
 });
 </script>
@@ -48,7 +56,8 @@ onMounted(async () => {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 header {
