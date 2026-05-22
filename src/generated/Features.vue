@@ -20,10 +20,10 @@ defineProps({
 });
 
 // Export config data
-export const componentConfig = {"title":"Features","description":"Key features of this application","content":"Components are generated automatically whenever you change configuration files","bgColor1":"#f093fb","bgColor2":"#f5576c"};
+const componentConfig = {"title":"Features","description":"Key features of this application","content":"Components are generated automatically whenever you change configuration files","bgColor1":"#f093fb","bgColor2":"#f5576c"};
 
 const content = ref('Components are generated automatically whenever you change configuration files');
-const generatedDate = ref('2026-05-21T21:39:18.104Z');
+const generatedDate = ref('2026-05-22T14:06:12.842Z');
 const title = ref('Features');
 const description = ref('Key features of this application');
 </script>

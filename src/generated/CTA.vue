@@ -20,10 +20,10 @@ defineProps({
 });
 
 // Export config data
-export const componentConfig = {"title":"Call to Action","description":"Ready to get started?","content":"Modify the .txt files in src/config/ and run npm run generate-components","bgColor1":"#4facfe","bgColor2":"#00f2fe"};
+const componentConfig = {"title":"Call to Action","description":"Ready to get started?","content":"Modify the .txt files in src/config/ and run npm run generate-components","bgColor1":"#4facfe","bgColor2":"#00f2fe"};
 
 const content = ref('Modify the .txt files in src/config/ and run npm run generate-components');
-const generatedDate = ref('2026-05-21T21:39:18.100Z');
+const generatedDate = ref('2026-05-22T14:06:12.837Z');
 const title = ref('Call to Action');
 const description = ref('Ready to get started?');
 </script>
