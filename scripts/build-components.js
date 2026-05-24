@@ -62,10 +62,10 @@ defineProps({
 // Export config data
 const componentConfig = ${JSON.stringify(config)};
 
-const content = ref(`${config.content}`);
-const generatedDate = ref('${new Date().toISOString()}');
-const title = ref('${config.title || name}');
-const description = ref('${config.description || 'Component generated from config'}');
+const content = ref(${JSON.stringify(config.content)});
+const generatedDate = ref(new Date().toISOString());
+const title = ref(${JSON.stringify(config.title || name)});
+const description = ref(${JSON.stringify(config.description || 'Component generated from config')});
 </script>
 
 <style scoped>
