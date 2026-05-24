@@ -43,7 +43,7 @@ function generateVueComponent(config, name) {
     <h2>{{ title }}</h2>
     <p>{{ description }}</p>
     <div class="content">
-      <p>{{ content }}</p>
+      <div v-html="content"></div>
     </div>
     <div class="meta">
       <small>Generated: {{ generatedDate }}</small>
