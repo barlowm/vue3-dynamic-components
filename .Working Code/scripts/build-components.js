@@ -37,8 +37,20 @@ configFiles.forEach(file => {
   console.log(`✓ Generated: ${componentName}.vue`);
 });
 
+
+/**
+ * This function returns a complete .VUE file consisting of:
+ *  Template
+ *  Script
+ *  Style
+ * elements
+ * @param {*} config 
+ * @param {*} name 
+ * @returns 
+ */
 function generateVueComponent(config, name) {
-  return `<template>
+  return 
+`<template>
   <div class="component-${name.toLowerCase()}">
     <h2>{{ title }}</h2>
     <p>{{ description }}</p>

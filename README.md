@@ -12,6 +12,22 @@ A Vue 3 application that automatically generates Vue components from text config
 
 ## Project Structure
 
+
+
+├── 📁 assets/
+│   └── 🎨 styles.css
+├── 📁 components/
+│   ├── 📄 Content.vue
+│   ├── 📄 Header.vue
+│   ├── 📄 MyIcon.vue
+│   └── 📄 Sidebar.vue
+├── 📄 App.vue
+└── 📄 main.js
+
+
+
+
+
 ```
 vue3-dynamic-components/
 ├── src/
